@@ -134,6 +134,10 @@
             return arr[arr.length - 1];
         }
 
+        function getCategorySteps(thresholds) {
+            return thresholds.concat([getLastArrayItem(thresholds) + 1]);
+        }
+
         function generateCard(name, data) {
             const stepClasses = ['d', 'c', 'b', 'a', 'fx'];
             const card = $(`<div class="container">
@@ -144,7 +148,7 @@
                 const cat = card.append(`<div class="category"><span class="dot" style="background-color:${catcol[i++]}"></span><span class="label">${key}</span></div>`);
                 if (!front) {
                     const range = $('<div class="range"></div>');
-                    const stps = data[key].steps.concat([getLastArrayItem(data[key].steps) + 1]);
+                    const stps = getCategorySteps(data[key].steps);
                     for (let i = 0; i < stps.length; i++) {
                         const step_value = stps[i];
                         const is_range_single_value = (i > 0 && stps[i - 1] >= step_value - 1);
