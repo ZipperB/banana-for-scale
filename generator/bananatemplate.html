@@ -144,15 +144,29 @@
                 </div>`);
         }
 
-        function generateCategory(name, index) {
-            return $(`<div class="category"><span class="dot" style="background-color:${catcol[index]}"></span><span class="label">${name}</span></div>`);
+        function generateCategory(name, indexes) {
+            if (!Array.isArray(indexes))
+                indexes = [indexes];
+            const dots = indexes
+                .map(index => `<span class="dot" style="background-color:${catcol[index]}"></span>`)
+                .join("");
+            return $(`<div class="category">${dots}<span class="label">${name}</span></div>`);
+        }
+
+        function getCategoryGroupIndexes(allCategories, actualCategories) {
+            const allCatIndexes = Array.from(allCategories, (_, i) => i);
+            return allCatIndexes.reduce(
+                (acc, cur) => { acc[cur % actualCategories.length].push(cur); return acc; },
+                Array.from(actualCategories, () => [])
+            );
         }
 
         function generateCardFront(name, data) {
             const card = generateCardContainer(name);
+            const categoryIndexes = getCategoryGroupIndexes(catcol, Object.keys(data));
             let i = 0;
             for (const key in data) {
-                const cat = card.append(generateCategory(key, i++));
+                const cat = card.append(generateCategory(key, categoryIndexes[i++]));
             }
             return card;
         }
@@ -161,9 +175,10 @@
             const stepClasses = ['d', 'c', 'b', 'a', 'fx'];
             const stepThresholdPercentages = [0.5, 0.75, 0.9, 1];
             const card = generateCardContainer(name);
+            const categoryIndexes = getCategoryGroupIndexes(catcol, Object.keys(data));
             let i = 0;
             for (const key in data) {
-                const cat = card.append(generateCategory(key, i++));
+                const cat = card.append(generateCategory(key, categoryIndexes[i++]));
                 const range = $('<div class="range"></div>');
                 const stps = (typeof data[key].steps !== "undefined")
                     ? getCategorySteps(data[key].steps)
