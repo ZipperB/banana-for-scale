@@ -148,7 +148,7 @@
                         if (i > 0) l = h + 1;
                         h = stps[i] - 1;
                         if (i === stps.length) v = `${l}+`;
-                        else v = `${l}-${h}`;
+                        else v = (l < h) ? `<${h}` : `${h}`;
                         range.append(`<span class='value ${stepClasses[i]}'>${v}</span>`);
                     }
                     card.append(range);
