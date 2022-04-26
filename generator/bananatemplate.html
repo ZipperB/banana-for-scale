@@ -140,6 +140,7 @@
 
         function generateCard(name, data) {
             const stepClasses = ['d', 'c', 'b', 'a', 'fx'];
+            const stepThresholdPercentages = [0.5, 0.75, 0.9, 1];
             const card = $(`<div class="container">
                 <span class="header">${name}</span>
                 </div>`);
@@ -148,7 +149,9 @@
                 const cat = card.append(`<div class="category"><span class="dot" style="background-color:${catcol[i++]}"></span><span class="label">${key}</span></div>`);
                 if (!front) {
                     const range = $('<div class="range"></div>');
-                    const stps = getCategorySteps(data[key].steps);
+                    const stps = (typeof data[key].steps !== "undefined")
+                        ? getCategorySteps(data[key].steps)
+                        : getCategorySteps(stepThresholdPercentages.map(p => Math.floor(data[key].correct * p)));
                     for (let i = 0; i < stps.length; i++) {
                         const step_value = stps[i];
                         const is_range_single_value = (i > 0 && stps[i - 1] >= step_value - 1);
