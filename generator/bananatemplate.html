@@ -138,13 +138,21 @@
             return thresholds.concat([getLastArrayItem(thresholds) + 1]);
         }
 
-        function generateCardFront(name, data) {
-            const card = $(`<div class="container">
+        function generateCardContainer(name) {
+            return $(`<div class="container">
                 <span class="header">${name}</span>
                 </div>`);
+        }
+
+        function generateCategory(name, index) {
+            return $(`<div class="category"><span class="dot" style="background-color:${catcol[index]}"></span><span class="label">${name}</span></div>`);
+        }
+
+        function generateCardFront(name, data) {
+            const card = generateCardContainer(name);
             let i = 0;
             for (const key in data) {
-                const cat = card.append(`<div class="category"><span class="dot" style="background-color:${catcol[i++]}"></span><span class="label">${key}</span></div>`);
+                const cat = card.append(generateCategory(key, i++));
             }
             return card;
         }
@@ -152,12 +160,10 @@
         function generateCardBack(name, data) {
             const stepClasses = ['d', 'c', 'b', 'a', 'fx'];
             const stepThresholdPercentages = [0.5, 0.75, 0.9, 1];
-            const card = $(`<div class="container">
-                <span class="header">${name}</span>
-                </div>`);
+            const card = generateCardContainer(name);
             let i = 0;
             for (const key in data) {
-                const cat = card.append(`<div class="category"><span class="dot" style="background-color:${catcol[i++]}"></span><span class="label">${key}</span></div>`);
+                const cat = card.append(generateCategory(key, i++));
                 const range = $('<div class="range"></div>');
                 const stps = (typeof data[key].steps !== "undefined")
                     ? getCategorySteps(data[key].steps)
