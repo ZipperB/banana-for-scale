@@ -130,6 +130,10 @@
         const catcol = ['blue', 'red', 'green', 'orange'];
         let front = false;
 
+        function getLastArrayItem(arr) {
+            return arr[arr.length - 1];
+        }
+
         function generateCard(name, data) {
             const stepClasses = ['d', 'c', 'b', 'a', 'fx'];
             const card = $(`<div class="container">
@@ -140,15 +144,12 @@
                 const cat = card.append(`<div class="category"><span class="dot" style="background-color:${catcol[i++]}"></span><span class="label">${key}</span></div>`);
                 if (!front) {
                     const range = $('<div class="range"></div>');
-                    let l = 0;
-                    let h = 0;
-                    const stps = data[key].steps;
-                    for (let i = 0; i <= stps.length; i++) {
-                        let v;
-                        if (i > 0) l = h + 1;
-                        h = stps[i];
-                        if (i === stps.length) v = `${l}+`;
-                        else v = (l < h) ? `<${h}` : `${h}`;
+                    const stps = data[key].steps.concat([getLastArrayItem(data[key].steps) + 1]);
+                    for (let i = 0; i < stps.length; i++) {
+                        const step_value = stps[i];
+                        const is_range_single_value = (i > 0 && stps[i - 1] >= step_value - 1);
+                        if (i === stps.length - 1) v = `${step_value}+`;
+                        else v = (is_range_single_value) ? `${step_value}` : `<${step_value}`;
                         range.append(`<span class='value ${stepClasses[i]}'>${v}</span>`);
                     }
                     card.append(range);
