@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- <base href="https://nerogames.sk/"> -->
+    <base href="http://localhost/ng-website-2/">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:tile" content="nero games" />
+    <meta property="og:description" content="autorská dielňa originálnych kartových hier zo slovenska" />
+    <meta property="og:image" content="images/boxes.jpg" />
+    <title>Nero Games</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        .label {
+            font-weight: 700;
+            margin-top: 20px;
+        }
+        
+        .header {
+            font-weight: 700;
+            font-size: 1.2em
+        }
+        
+        .page {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-auto-rows: minmax(min-content, max-content);
+        }
+        
+        .container {
+            border: solid 1px black;
+            align-items: center;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            position: relative;
+            padding: 10px;
+            padding-bottom: 80px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            text-align: center;
+        }
+        
+        .range {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            border-radius: 10px;
+        }
+        
+        .range .value {
+            font-weight: 700;
+            text-align: center;
+            white-space: nowrap;
+            flex: 1 1 0;
+            padding: .5rem .15rem;
+            border: solid 1px black;
+            border-collapse: collapse;
+        }
+        
+        .range .value:first-child {
+            border-radius: 10px 0 0 10px;
+        }
+        
+        .range .value:last-child {
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .category {
+            margin-top: 15px;
+        }
+        
+        .d {
+            background-color: #cfa;
+        }
+        
+        .c {
+            background-color: #af6;
+        }
+        
+        .b {
+            background-color: #6e2;
+        }
+        
+        .a {
+            background-color: #3c3
+        }
+        
+        .fx {
+            background-color: #f30
+        }
+        
+        .dot {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            border-radius: 50%;
+            margin-right: .5em;
+        }
+        
+        textarea {
+            display: block;
+            width: 100%;
+            margin-bottom: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="form">
+        <textarea type='text' id='input' placeholder="paste json"></textarea> Bodovanie: <input type='text' id="body" value="4,2,1,0,8">
+        <button onclick='loadFile(false);'>Generate</button>
+        <button onclick='loadFile(true);'>Generate Front</button>
+    </div>
+    <button onclick="$('#form').toggle()">i</button>
+    <div id="container" class="page"></div>
+    <script type="text/javascript">
+        const catcol = ['blue', 'red', 'green', 'orange'];
+        let front = false;
+
+        function generateCard(name, data) {
+            const stepClasses = ['d', 'c', 'b', 'a', 'fx'];
+            const card = $(`<div class="container">
+                <span class="header">${name}</span>
+                </div>`);
+            let i = 0;
+            for (const key in data) {
+                const cat = card.append(`<div class="category"><span class="dot" style="background-color:${catcol[i++]}"></span><span class="label">${key}</span></div>`);
+                if (!front) {
+                    cat.append(` Správne: ${data[key].correct}`);
+                    const range = $('<div class="range"></div>');
+                    let l = 0;
+                    let h = 0;
+                    const stps = data[key].steps;
+                    for (let i = 0; i <= stps.length; i++) {
+                        let v;
+                        if (i > 0) l = h + 1;
+                        h = stps[i] - 1;
+                        if (i === stps.length) v = `${l}+`;
+                        else v = `${l}-${h}`;
+                        range.append(`<span class='value ${stepClasses[i]}'>${v}</span>`);
+                    }
+                    card.append(range);
+                }
+            }
+            if (!front) {
+                card.append(`<div class="category"><span class="label">BODY</span></div>`);
+                const range = $('<div class="range points"></div>');
+                const bodyin = $('#body').val();
+                const body = JSON.parse(`[${bodyin}]`);
+                body.map((e, i) => {
+                    range.append(`<span class='value ${stepClasses[i]}'>${e}</span>`);
+                });
+                card.append(range);
+            }
+            return card;
+        }
+
+        function generate(data) {
+            const c = $('#container');
+            c.empty();
+
+            const names = Object.keys(data);
+            if (front) names.reverse();
+            for (const name of names) {
+                c.append(generateCard(name, data[name]));
+            }
+        }
+
+        function loadFile(is_front) {
+            const input = $('#input');
+            let data = JSON.parse(input.val());
+            front = is_front;
+            generate(data);
+        }
+    </script>
+</body>
+
+</html>
