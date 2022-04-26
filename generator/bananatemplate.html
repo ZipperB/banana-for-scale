@@ -139,7 +139,6 @@
             for (const key in data) {
                 const cat = card.append(`<div class="category"><span class="dot" style="background-color:${catcol[i++]}"></span><span class="label">${key}</span></div>`);
                 if (!front) {
-                    cat.append(` Správne: ${data[key].correct}`);
                     const range = $('<div class="range"></div>');
                     let l = 0;
                     let h = 0;
