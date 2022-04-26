@@ -138,7 +138,18 @@
             return thresholds.concat([getLastArrayItem(thresholds) + 1]);
         }
 
-        function generateCard(name, data) {
+        function generateCardFront(name, data) {
+            const card = $(`<div class="container">
+                <span class="header">${name}</span>
+                </div>`);
+            let i = 0;
+            for (const key in data) {
+                const cat = card.append(`<div class="category"><span class="dot" style="background-color:${catcol[i++]}"></span><span class="label">${key}</span></div>`);
+            }
+            return card;
+        }
+
+        function generateCardBack(name, data) {
             const stepClasses = ['d', 'c', 'b', 'a', 'fx'];
             const stepThresholdPercentages = [0.5, 0.75, 0.9, 1];
             const card = $(`<div class="container">
@@ -147,37 +158,39 @@
             let i = 0;
             for (const key in data) {
                 const cat = card.append(`<div class="category"><span class="dot" style="background-color:${catcol[i++]}"></span><span class="label">${key}</span></div>`);
-                if (!front) {
-                    const range = $('<div class="range"></div>');
-                    const stps = (typeof data[key].steps !== "undefined")
-                        ? getCategorySteps(data[key].steps)
-                        : getCategorySteps(stepThresholdPercentages.map(p => Math.floor(data[key].correct * p)));
-                    for (let i = 0; i < stps.length; i++) {
-                        const step_value = stps[i];
-                        const is_range_single_value = (i > 0 && stps[i - 1] >= step_value - 1);
-                        if (i === stps.length - 1) v = `${step_value}+`;
-                        else v = (is_range_single_value) ? `${step_value}` : `<${step_value}`;
-                        let value_node = $(`<span class='value ${stepClasses[i]}'>${v}</span>`);
-                        if (step_value >= 1000)
-                            value_node.css("font-size", "80%");
-                        if (step_value >= 1000)
-                            value_node.css("font-size", "65%");
-                        range.append(value_node);
-                    }
-                    card.append(range);
+                const range = $('<div class="range"></div>');
+                const stps = (typeof data[key].steps !== "undefined")
+                    ? getCategorySteps(data[key].steps)
+                    : getCategorySteps(stepThresholdPercentages.map(p => Math.floor(data[key].correct * p)));
+                for (let i = 0; i < stps.length; i++) {
+                    const step_value = stps[i];
+                    const is_range_single_value = (i > 0 && stps[i - 1] >= step_value - 1);
+                    if (i === stps.length - 1) v = `${step_value}+`;
+                    else v = (is_range_single_value) ? `${step_value}` : `<${step_value}`;
+                    let value_node = $(`<span class='value ${stepClasses[i]}'>${v}</span>`);
+                    if (step_value >= 1000)
+                        value_node.css("font-size", "80%");
+                    if (step_value >= 1000)
+                        value_node.css("font-size", "65%");
+                    range.append(value_node);
                 }
-            }
-            if (!front) {
-                card.append(`<div class="category"><span class="label">Fail Points</span></div>`);
-                const range = $('<div class="range points"></div>');
-                const bodyin = $('#body').val();
-                const body = JSON.parse(`[${bodyin}]`);
-                body.map((e, i) => {
-                    range.append(`<span class='value ${stepClasses[i]}'>${e}</span>`);
-                });
                 card.append(range);
             }
+            card.append(`<div class="category"><span class="label">Fail Points</span></div>`);
+            const range = $('<div class="range points"></div>');
+            const bodyin = $('#body').val();
+            const body = JSON.parse(`[${bodyin}]`);
+            body.map((e, i) => {
+                range.append(`<span class='value ${stepClasses[i]}'>${e}</span>`);
+            });
+            card.append(range);
             return card;
+        }
+
+        function generateCard(name, data, front) {
+            if (front)
+                return generateCardFront(name, data);
+            return generateCardBack(name, data);
         }
 
         function generate(data) {
@@ -187,7 +200,7 @@
             const names = Object.keys(data);
             if (front) names.reverse();
             for (const name of names) {
-                c.append(generateCard(name, data[name]));
+                c.append(generateCard(name, data[name], front));
             }
         }
 
