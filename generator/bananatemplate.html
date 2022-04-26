@@ -47,10 +47,14 @@
             width: 300px;
             position: relative;
             padding: 10px;
-            padding-bottom: 80px;
             font-family: 'Montserrat', sans-serif;
             font-size: 18px;
             text-align: center;
+        }
+
+        .picture {
+            width: 276px;
+            height: 220px;
         }
         
         .range {
@@ -163,6 +167,7 @@
 
         function generateCardFront(name, data) {
             const card = generateCardContainer(name);
+            card.append(`<div class="picture"></div>`);
             const categoryIndexes = getCategoryGroupIndexes(catcol, Object.keys(data));
             let i = 0;
             for (const key in data) {
