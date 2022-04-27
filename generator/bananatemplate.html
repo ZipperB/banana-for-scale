@@ -146,6 +146,16 @@
             return result;
         }
 
+        function reverseArrayChunks(arr, chunkSize) {
+            let result = [];
+            for (let i = 0; i < Math.ceil(arr.length / chunkSize); ++i) {
+                let chunk = arr.slice(i * chunkSize, (i + 1) * chunkSize);
+                chunk.reverse();
+                result = result.concat(chunk);
+            }
+            return result;
+        }
+
         function getLastArrayItem(arr) {
             return arr[arr.length - 1];
         }
@@ -239,8 +249,11 @@
             const c = $('#container');
             c.empty();
 
-            const names = Object.keys(data);
-            if (front) names.reverse();
+            let names = Object.keys(data);
+            if (front) {
+                names = reverseArrayChunks(names, 4);
+            }
+
             for (const name of names) {
                 c.append(generateCard(name, processCardData(data[name]), front));
             }
