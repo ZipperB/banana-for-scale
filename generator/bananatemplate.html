@@ -52,7 +52,7 @@
             text-align: center;
         }
 
-        .picture {
+        .picture, .picture img {
             width: 276px;
             height: 220px;
         }
@@ -134,6 +134,18 @@
         const catcol = ['blue', 'red', 'green', 'orange'];
         let front = false;
 
+        function processCardData(data) {
+            var result = { categories: {} };
+            for (const key in data) {
+                if (key === "picture") {
+                    result.picture = data[key];
+                    continue;
+                }
+                result.categories[key] = data[key];
+            }
+            return result;
+        }
+
         function getLastArrayItem(arr) {
             return arr[arr.length - 1];
         }
@@ -167,10 +179,14 @@
 
         function generateCardFront(name, data) {
             const card = generateCardContainer(name);
-            card.append(`<div class="picture"></div>`);
-            const categoryIndexes = getCategoryGroupIndexes(catcol, Object.keys(data));
+            const picture = $(`<div class="picture"></div>`)
+            if (typeof data.picture !== "undefined") {
+                picture.append(`<img src="${data.picture}" />`);
+            }
+            card.append(picture);
+            const categoryIndexes = getCategoryGroupIndexes(catcol, Object.keys(data.categories));
             let i = 0;
-            for (const key in data) {
+            for (const key in data.categories) {
                 const cat = card.append(generateCategory(key, categoryIndexes[i++]));
             }
             return card;
@@ -180,14 +196,14 @@
             const stepClasses = ['d', 'c', 'b', 'a', 'fx'];
             const stepThresholdPercentages = [0.5, 0.75, 0.9, 1];
             const card = generateCardContainer(name);
-            const categoryIndexes = getCategoryGroupIndexes(catcol, Object.keys(data));
+            const categoryIndexes = getCategoryGroupIndexes(catcol, Object.keys(data.categories));
             let i = 0;
-            for (const key in data) {
+            for (const key in data.categories) {
                 const cat = card.append(generateCategory(key, categoryIndexes[i++]));
                 const range = $('<div class="range"></div>');
-                const stps = (typeof data[key].steps !== "undefined")
-                    ? getCategorySteps(data[key].steps)
-                    : getCategorySteps(stepThresholdPercentages.map(p => Math.floor(data[key].correct * p)));
+                const stps = (typeof data.categories[key].steps !== "undefined")
+                    ? getCategorySteps(data.categories[key].steps)
+                    : getCategorySteps(stepThresholdPercentages.map(p => Math.floor(data.categories[key].correct * p)));
                 for (let i = 0; i < stps.length; i++) {
                     const step_value = stps[i];
                     const is_range_single_value = (i > 0 && stps[i - 1] >= step_value - 1);
@@ -226,7 +242,7 @@
             const names = Object.keys(data);
             if (front) names.reverse();
             for (const name of names) {
-                c.append(generateCard(name, data[name], front));
+                c.append(generateCard(name, processCardData(data[name]), front));
             }
         }
 
