@@ -94,5 +94,71 @@
         "Weight": {
             "correct": 5291
         }
+    },
+    "Boeing 757": {
+        "picture": "./images/Boeing_757.png",
+        "Wingspan": {
+            "correct": 200
+        },
+        "Length": {
+            "correct": 249
+        }
+    },
+    "Average male Nigerien Giraffe": {
+        "picture": "./images/Giraffe.png",
+        "Height": {
+            "correct": 28
+        },
+        "Weight": {
+            "correct": 10583
+        }
+    },
+    "Average male Northern Bald Eagle": {
+        "picture": "./images/Bald_Eagle.png",
+        "Wingspan": {
+            "correct": 10
+        },
+        "Weight": {
+            "correct": 39
+        }
+    },
+    "Lamborghini Gallardo (2006)": {
+        "picture": "./images/Lambo.png",
+        "Engine Capacity": {
+            "correct": 31
+        },
+        "Length": {
+            "correct": 22
+        },
+        "Width": {
+            "correct": 10
+        }
+    },
+    "ENIAC": {
+        "picture": "./images/ENIAC.png",
+        "Combined panels width": {
+            "correct": 126
+        },
+        "Weight": {
+            "correct": 22500
+        }
+    },
+    "Christ the Redeemer": {
+        "picture": "./images/Christ.png",
+        "Height (without base)": {
+            "correct": 157
+        },
+        "Armspan": {
+            "correct": 147
+        }
+    },
+    "Nuclear fuel rod tube (Pressurized water reactor)": {
+        "picture": "./images/Fuel_Rod.png",
+        "Length": {
+            "correct": 210
+        },
+        "Volume": {
+            "correct": 20
+        }
     }
 }
