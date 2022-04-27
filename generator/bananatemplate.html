@@ -83,7 +83,13 @@
         }
         
         .category {
+            width: 100%;
             margin-top: 10px;
+            text-align: left;
+        }
+
+        .points {
+            text-align: center;
         }
         
         .d {
@@ -228,8 +234,8 @@
                 }
                 card.append(range);
             }
-            card.append(`<div class="category"><span class="label">FAIL POINTS</span></div>`);
-            const range = $('<div class="range points"></div>');
+            card.append(`<div class="category points"><span class="label">FAIL POINTS</span></div>`);
+            const range = $('<div class="range"></div>');
             const bodyin = $('#body').val();
             const body = JSON.parse(`[${bodyin}]`);
             body.map((e, i) => {
