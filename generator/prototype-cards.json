@@ -1,0 +1,98 @@
+{
+    "Eiffel Tower": {
+        "picture": "./images/Eiffel_Tower.png",
+        "Base circumference": {
+            "correct": 2631
+        },
+        "Height": {
+            "correct": 1710
+        }
+    },
+    "Great Wall of China": {
+        "picture": "./images/Great_Wall.png",
+        "Average base width": {
+            "correct": 34
+        },
+        "Maximum height": {
+            "correct": 73
+        }
+    },
+    "Football": {
+        "picture": "./images/Football.png",
+        "Volume": {
+            "correct": 34
+        }
+    },
+    "Olympic Size Swimming pool": {
+        "picture": "./images/Pool.png",
+        "Length": {
+            "correct": 263
+        },
+        "Width": {
+            "correct": 131
+        }
+    },
+    "Great Pyramid of Giza": {
+        "picture": "./images/Pyramid.png",
+        "Height": {
+            "correct": 726
+        },
+        "Circumference at base": {
+            "correct": 4842
+        }
+    },
+    "Hoover Dam": {
+        "picture": "./images/Hoover_Dam.png",
+        "Height": {
+            "correct": 1163
+        },
+        "Length": {
+            "correct": 1994
+        }
+    },
+    "Suez Canal": {
+        "picture": "./images/Suez_Canal.png",
+        "Width": {
+            "correct": 1078
+        },
+        "Depth": {
+            "correct": 129
+        }
+    },
+    "K2 Mountaint": {
+        "picture": "./images/K2.png",
+        "Height": {
+            "correct": 45321
+        }
+    },
+    "Statue of Liberty": {
+        "picture": "./images/Statue_of_Liberty.png",
+        "Height of statue": {
+            "correct": 242
+        },
+        "Height of pedestal": {
+            "correct": 247
+        }
+    },
+    "20 foot Shipping Container": {
+        "picture": "./images/Container.png",
+        "Length": {
+            "correct": 31
+        },
+        "Weight": {
+            "correct": 18166
+        }
+    },
+    "Wooly Mammoth": {
+        "picture": "./images/Mammoth.png",
+        "Average height": {
+            "correct": 21
+        }
+    },
+    "Heaviest Human Ever": {
+        "picture": "./images/Obese_Man.png",
+        "Weight": {
+            "correct": 5291
+        }
+    }
+}
