@@ -124,9 +124,6 @@
     },
     "Lamborghini Gallardo (2006)": {
         "picture": "./images/Lambo.png",
-        "Engine Capacity": {
-            "correct": 31
-        },
         "Length": {
             "correct": 22
         },
