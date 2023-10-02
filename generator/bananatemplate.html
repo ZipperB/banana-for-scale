@@ -281,7 +281,13 @@
             return card;
         }
 
+        function generateCardBlank() {
+            return $(`<div class="container"></div>`);
+        }
+
         function generateCard(name, data, front) {
+            if (name === "")
+                return generateCardBlank();
             if (front)
                 return generateCardFront(name, data);
             return generateCardBack(name, data);
@@ -292,6 +298,12 @@
             c.empty();
 
             let names = Object.keys(data);
+            const pagesCount = Math.ceil(names.length / 3 / 3);
+            const filledPagesCardsCount = pagesCount * 3 * 3;
+            for (let fillerCardIndex = names.length; fillerCardIndex < filledPagesCardsCount; ++fillerCardIndex)
+                names.push("");
+            data[""] = {};
+
             if (front) {
                 names = flipArrayChunks(names, 3, 3);
             }
