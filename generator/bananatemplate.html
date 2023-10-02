@@ -261,10 +261,8 @@
                     if (i === stps.length - 1) v = `${step_value}+`;
                     else v = (is_range_single_value) ? `${step_value}` : `<${step_value}`;
                     let value_node = $(`<span class='value ${stepClasses[i]}'>${v}</span>`);
-                    if (step_value >= 1000)
+                    if (step_value >= 10000)
                         value_node.css("font-size", "80%");
-                    if (step_value >= 1000)
-                        value_node.css("font-size", "65%");
                     range.append(value_node);
                 }
                 card.append(range);
