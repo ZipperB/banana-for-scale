@@ -126,16 +126,29 @@
             width: 100%;
             margin-bottom: 1em;
         }
+
+        @media print {
+            body {
+                margin: 0;
+            }
+            .no-print,
+            .no-print * {
+                display: none !important;
+            }
+            .page {
+                page-break-after: always;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div id="form">
+    <div id="form" class="no-print">
         <textarea type='text' id='input' placeholder="paste json"></textarea> Bodovanie: <input type='text' id="body" value="4,2,1,0,8">
         <button onclick='loadFile(false);'>Generate</button>
         <button onclick='loadFile(true);'>Generate Front</button>
     </div>
-    <button onclick="$('#form').toggle()">i</button>
+    <button onclick="$('#form').toggle()" class="no-print">i</button>
     <div id="container"></div>
     <script type="text/javascript">
         const catcol = ['blue', 'red'];
