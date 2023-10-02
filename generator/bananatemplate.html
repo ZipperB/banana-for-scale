@@ -45,6 +45,8 @@
 
         .front {
             width: 180mm;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
         }
         
         .container {
@@ -187,12 +189,13 @@
             return result;
         }
 
-        function reverseArrayChunks(arr, chunkSize) {
+        function flipArrayChunks(arr, rowsCount, columnsCount) {
             let result = [];
+            const chunkSize = rowsCount * columnsCount;
             for (let i = 0; i < Math.ceil(arr.length / chunkSize); ++i) {
                 let chunk = arr.slice(i * chunkSize, (i + 1) * chunkSize);
-                chunk.reverse();
-                result = result.concat(chunk);
+                for (let column = 0; column < columnsCount; ++column)
+                    result = result.concat(chunk.filter((_, index) => index % columnsCount === column));
             }
             return result;
         }
@@ -290,10 +293,10 @@
 
             let names = Object.keys(data);
             if (front) {
-                names = reverseArrayChunks(names, 4);
+                names = flipArrayChunks(names, 3, 3);
             }
 
-            const chunkMaxSize = 9;
+            const chunkMaxSize = 3 * 3;
             let chunkOffset = 0;
             while (chunkOffset < names.length) {
                 let chunk = names.slice(chunkOffset, chunkOffset + chunkMaxSize);
