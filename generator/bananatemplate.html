@@ -33,10 +33,14 @@
         }
         
         .page {
-            width: 180mm;
+            width: 267mm;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(3, 1fr);
+        }
+
+        .front {
+            width: 180mm;
         }
         
         .container {
@@ -45,13 +49,18 @@
             background-color: white;
             display: flex;
             flex-direction: column;
-            height: 89mm; /* (297 - 30) / 3 */
-            width: 60mm;  /* (210 - 30) / 3 */
+            height: 60mm; /* (210 - 30) / 3 */
+            width: 89mm;  /* (297 - 30) / 3 */
             position: relative;
             padding: 10px;
             font-family: 'Montserrat', sans-serif;
             font-size: 12pt;
             text-align: center;
+        }
+
+        .front .container {
+            height: 89mm; /* (297 - 30) / 3 */
+            width: 60mm;  /* (210 - 30) / 3 */
         }
 
         .picture, .picture img {
@@ -278,7 +287,8 @@
             let chunkOffset = 0;
             while (chunkOffset < names.length) {
                 let chunk = names.slice(chunkOffset, chunkOffset + chunkMaxSize);
-                const p = $('<div class="page"></div>');
+                const side_class = front ? " front" : "";
+                const p = $(`<div class="page${side_class}"></div>`);
                 chunk.map((name) => {
                     p.append(generateCard(name, processCardData(data[name]), front));
                 });
