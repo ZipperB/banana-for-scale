@@ -22,7 +22,6 @@
         
         .label {
             font-weight: 700;
-            margin-top: 20px;
         }
         
         .header {
@@ -48,7 +47,7 @@
             position: relative;
             padding: 10px;
             font-family: 'Montserrat', sans-serif;
-            font-size: 14pt;
+            font-size: 12pt;
             text-align: center;
         }
 
@@ -112,9 +111,9 @@
         }
         
         .dot {
-            display: inline-block;
-            width: 1em;
-            height: 1em;
+            float: left;
+            width: 2.4em;
+            height: 2.4em;
             border-radius: 50%;
             margin-right: .5em;
         }
@@ -181,7 +180,7 @@
             const dots = indexes
                 .map(index => `<span class="dot" style="background-color:${catcol[index]}"></span>`)
                 .join("");
-            return $(`<div class="category">${dots}<span class="label">${name}</span></div>`);
+            return $(`<div class="category">${dots}<div class="label">${name}</span></div>`);
         }
 
         function getCategoryGroupIndexes(allCategories, actualCategories) {
